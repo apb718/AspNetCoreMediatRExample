@@ -22,15 +22,26 @@ public class EditModel : PageModel
 
 	public void OnGet(Guid id)
 	{
-		Console.WriteLine($"Onget triggered with {id}");
 		// Todo: Use repo to get address book entry, set UpdateAddressRequest fields.
-		var entries = _repo.Find(new EntryByIdSpecification(id)).FirstOrDefault();
-		UpdateAddressRequest.Id = id;
-		UpdateAddressRequest.Line1 = entries.Line1;
-		UpdateAddressRequest.Line2 = entries.Line2;
-		UpdateAddressRequest.City = entries.City;
-		UpdateAddressRequest.State = entries.State;
-		UpdateAddressRequest.PostalCode = entries.PostalCode;
+		var entry = _repo.Find(new EntryByIdSpecification(id)).FirstOrDefault();
+		Console.WriteLine(entry.City);
+		if (entry == null)
+		{
+			Console.WriteLine("Address entry not found");
+			return;
+		}
+		
+		// Console.WriteLine($"{UpdateAddressRequest.Id.GetType} {entry.Id.GetType}\n");
+		UpdateAddressRequest = new UpdateAddressRequest
+		{
+			Id = entry.Id,
+			Line1 = entry.Line1,
+			Line2 = entry.Line2,
+			City = entry.City,
+			State = entry.State,
+			PostalCode = entry.PostalCode
+		};
+		
 		
 	}
 
