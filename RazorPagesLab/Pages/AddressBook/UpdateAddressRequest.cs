@@ -6,8 +6,9 @@ using MediatR;
 namespace RazorPagesLab.Pages.AddressBook;
 
 public class UpdateAddressRequest
-	: IRequest
+	: IRequest<Guid>
 {
+	[Required(ErrorMessage = "Id is required.")]
 	public Guid Id { get; set; }
 
 	[Required(ErrorMessage = "Address line 1 is required.")]
